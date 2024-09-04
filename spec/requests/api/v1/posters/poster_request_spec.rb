@@ -86,4 +86,31 @@ describe "posters API" do
 		expect(poster_response).to have_key(:img_url)
 		expect(poster_response[:img_url]).to eq(@poster1.img_url)
 	end
+
+	it "can create a new poster" do
+		poster_params = {
+  	name: "Dragon Reborn",
+  	description: "The Wheel Weaves",
+  	price: 69.00,
+  	year: 2013,
+  	vintage: false,
+  	img_url: "https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.thegreatblight.com%2Fmajor-character%2Frand-althor&psig=AOvVaw2mEU7gb_WgjxRqQ1-B-xSl&ust=1725573628841000&source=images&cd=vfe&opi=89978449&ved=0CBQQjRxqFwoTCNjr-eqkqogDFQAAAAAdAAAAABAE"
+		}
+
+		post api_v1_posters_path, params: poster_params, as: :json
+		created_poster = Poster.last
+
+		expect(response).to be_successful
+		expect(response.code).to eq("201")
+
+		expect(created_poster.name).to eq(poster_params[:name])
+		expect(created_poster.description).to eq(poster_params[:description])
+		expect(created_poster.price).to eq(poster_params[:price])
+		expect(created_poster.year).to eq(poster_params[:year])
+		expect(created_poster.vintage?).to eq(poster_params[:vintage])
+		expect(created_poster.img_url).to eq(poster_params[:img_url])
+
+
+	end
 end
+
