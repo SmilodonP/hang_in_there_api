@@ -135,8 +135,8 @@ describe "posters API" do
 		expect(Poster.find_by(id: @poster1.id)).not_to be_nil
 
 		
-		expect(response).to be_successful
 		delete "/api/v1/posters/#{@poster1.id}"
+		expect(response).to be_successful
 	
 		expect(Poster.find_by(id: @poster1.id)).to be_nil
 		expect { Poster.find(@poster1.id) }.to raise_error(ActiveRecord::RecordNotFound)
