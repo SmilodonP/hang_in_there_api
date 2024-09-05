@@ -37,6 +37,9 @@ describe "posters API" do
 
 		expect(posters[:data].count).to eq(3)
 
+		expect(posters[:meta]).to be_present
+		expect(posters[:meta][:count]).to eq(3)
+
 		posters[:data].each do |poster|
 			expect(poster[:id].to_i).to be_an(Integer)
 
