@@ -77,6 +77,7 @@ describe "posters API" do
 
 		expect(poster_response).to have_key(:price)
 		expect(poster_response[:price]).to eq(@poster1.price)
+
 		expect(poster_response).to have_key(:year)
 		expect(poster_response[:year]).to eq(@poster1.year)
 
@@ -109,8 +110,24 @@ describe "posters API" do
 		expect(created_poster.year).to eq(poster_params[:year])
 		expect(created_poster.vintage?).to eq(poster_params[:vintage])
 		expect(created_poster.img_url).to eq(poster_params[:img_url])
-
-
 	end
+
+  it "can update an existing poster" do
+
+    id = Poster.create(name: "New Updated Poster").id
+
+    previous_name = Poster.name
+
+    poster_params = { name: "New Updated Poster"}
+    headers = {"CONTENT_TYPE" => "application/json"}
+  
+    patch "/api/v1/posters/#{id}", headers: headers, params: JSON.generate({poster: poster_params})
+
+    poster = Poster.find_by(id: id)
+  
+    expect(response).to be_successful
+    expect(poster.name).to_not eq(previous_name)
+    expect(poster.name).to eq("New Updated Poster")
+  end
 end
 
