@@ -68,23 +68,23 @@ describe "posters API" do
 
 		poster_response = JSON.parse(response.body, symbolize_names: true)
 		
-		expect(poster_response).to have_key(:id)
-		expect(poster_response[:id]).to eq(@poster1.id)
+		expect(poster_response[:data]).to have_key(:id)
+		expect(poster_response[:data][:id].to_i).to eq(@poster1.id)
 		
-		expect(poster_response).to have_key(:description)
-		expect(poster_response[:description]).to eq(@poster1.description)
+		expect(poster_response[:data][:attributes]).to have_key(:description)
+		expect(poster_response[:data][:attributes][:description]).to eq(@poster1.description)
 
-		expect(poster_response).to have_key(:price)
-		expect(poster_response[:price]).to eq(@poster1.price)
+		expect(poster_response[:data][:attributes]).to have_key(:price)
+		expect(poster_response[:data][:attributes][:price]).to eq(@poster1.price)
 
-		expect(poster_response).to have_key(:year)
-		expect(poster_response[:year]).to eq(@poster1.year)
+		expect(poster_response[:data][:attributes]).to have_key(:year)
+		expect(poster_response[:data][:attributes][:year]).to eq(@poster1.year)
 
-		expect(poster_response).to have_key(:vintage)
-		expect(poster_response[:vintage]).to be(true)
+		expect(poster_response[:data][:attributes]).to have_key(:vintage)
+		expect(poster_response[:data][:attributes][:vintage]).to be(true)
 
-		expect(poster_response).to have_key(:img_url)
-		expect(poster_response[:img_url]).to eq(@poster1.img_url)
+		expect(poster_response[:data][:attributes]).to have_key(:img_url)
+		expect(poster_response[:data][:attributes][:img_url]).to eq(@poster1.img_url)
 	end
 
 	it "can create a new poster" do
