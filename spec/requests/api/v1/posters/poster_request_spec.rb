@@ -27,7 +27,7 @@ describe "posters API" do
 			img_url:  "https://psychedelichealth.co.uk/wp-content/uploads/2021/10/amanita.jpeg")
 	end
 
-  it "can render a JSON representation of the corresponding record" do
+  it "render a JSON representation of the corresponding record" do
     
 		get "/api/v1/posters"
 
@@ -35,33 +35,32 @@ describe "posters API" do
 
 		posters = JSON.parse(response.body, symbolize_names: true)
 
-		expect(posters.count).to eq(3)
+		expect(posters[:data].count).to eq(3)
 
-		posters.each do |poster|
-			expect(poster).to have_key(:id)
-			expect(poster[:id]).to be_an(Integer)
+		posters[:data].each do |poster|
+			expect(poster[:id].to_i).to be_an(Integer)
 
-			expect(poster).to have_key(:name)
-			expect(poster[:name]).to be_a(String)
+			expect(poster[:attributes]).to have_key(:name)
+			expect(poster[:attributes][:name]).to be_a(String)
 
-			expect(poster).to have_key(:description)
-			expect(poster[:description]).to be_a(String)
+			expect(poster[:attributes]).to have_key(:description)
+			expect(poster[:attributes][:description]).to be_a(String)
 
-			expect(poster).to have_key(:price)
-			expect(poster[:price]).to be_a(Float)
+			expect(poster[:attributes]).to have_key(:price)
+  		expect(poster[:attributes][:price]).to be_a(Float)
 
-			expect(poster).to have_key(:year)
-			expect(poster[:year]).to be_a(Integer)
+  		expect(poster[:attributes]).to have_key(:year)
+  		expect(poster[:attributes][:year]).to be_a(Integer)
 
-			expect(poster).to have_key(:vintage)
-			expect(poster[:vintage]).to be_in([true, false])
+  		expect(poster[:attributes]).to have_key(:vintage)
+  		expect(poster[:attributes][:vintage]).to be_in([true, false])
 
-			expect(poster).to have_key(:img_url)
-			expect(poster[:img_url]).to be_a(String)
+  		expect(poster[:attributes]).to have_key(:img_url)
+  		expect(poster[:attributes][:img_url]).to be_a(String)
 		end
 	end
 
-	it "can render a specfic poster" do
+	it "can get one poster" do
 	
 		get "/api/v1/posters/#{@poster1.id}"
 
@@ -69,34 +68,34 @@ describe "posters API" do
 
 		poster_response = JSON.parse(response.body, symbolize_names: true)
 		
-		expect(poster_response).to have_key(:id)
-		expect(poster_response[:id]).to eq(@poster1.id)
+		expect(poster_response[:data]).to have_key(:id)
+		expect(poster_response[:data][:id].to_i).to eq(@poster1.id)
 		
-		expect(poster_response).to have_key(:description)
-		expect(poster_response[:description]).to eq(@poster1.description)
+		expect(poster_response[:data][:attributes]).to have_key(:description)
+		expect(poster_response[:data][:attributes][:description]).to eq(@poster1.description)
 
-		expect(poster_response).to have_key(:price)
-		expect(poster_response[:price]).to eq(@poster1.price)
+		expect(poster_response[:data][:attributes]).to have_key(:price)
+		expect(poster_response[:data][:attributes][:price]).to eq(@poster1.price)
 
-		expect(poster_response).to have_key(:year)
-		expect(poster_response[:year]).to eq(@poster1.year)
+		expect(poster_response[:data][:attributes]).to have_key(:year)
+		expect(poster_response[:data][:attributes][:year]).to eq(@poster1.year)
 
-		expect(poster_response).to have_key(:vintage)
-		expect(poster_response[:vintage]).to be(true)
+		expect(poster_response[:data][:attributes]).to have_key(:vintage)
+		expect(poster_response[:data][:attributes][:vintage]).to be(true)
 
-		expect(poster_response).to have_key(:img_url)
-		expect(poster_response[:img_url]).to eq(@poster1.img_url)
+		expect(poster_response[:data][:attributes]).to have_key(:img_url)
+		expect(poster_response[:data][:attributes][:img_url]).to eq(@poster1.img_url)
 	end
 
 	it "can create a new poster" do
 		poster_params = {
-			name: "Dragon Reborn",
-			description: "The Wheel Weaves",
-			price: 69.00,
-			year: 2013,
-			vintage: false,
-			img_url: "https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.thegreatblight.com%2Fmajor-character%2Frand-althor&psig=AOvVaw2mEU7gb_WgjxRqQ1-B-xSl&ust=1725573628841000&source=images&cd=vfe&opi=89978449&ved=0CBQQjRxqFwoTCNjr-eqkqogDFQAAAAAdAAAAABAE"
-			}
+  	name: "Dragon Reborn",
+  	description: "The Wheel Weaves",
+  	price: 69.00,
+  	year: 2013,
+  	vintage: false,
+  	img_url: "https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.thegreatblight.com%2Fmajor-character%2Frand-althor&psig=AOvVaw2mEU7gb_WgjxRqQ1-B-xSl&ust=1725573628841000&source=images&cd=vfe&opi=89978449&ved=0CBQQjRxqFwoTCNjr-eqkqogDFQAAAAAdAAAAABAE"
+		}
 
 		post api_v1_posters_path, params: poster_params, as: :json
 		created_poster = Poster.last
