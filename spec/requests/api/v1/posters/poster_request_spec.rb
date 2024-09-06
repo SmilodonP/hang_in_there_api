@@ -8,7 +8,9 @@ describe "posters API" do
 			price: 69.00,
 			year: 1999,
 			vintage: true,
-			img_url:  "https://motorillustrated.com/wp-content/uploads/2020/07/Glacer-View-Car-Launch-04.jpg")
+			img_url:  "https://motorillustrated.com/wp-content/uploads/2020/07/Glacer-View-Car-Launch-04.jpg",
+			created_at: 2.days.ago
+		)
 
 		@poster2 = Poster.create(
 			name: "Take A Chance",
@@ -16,7 +18,9 @@ describe "posters API" do
 			price: 69.00,
 			year: 2018,
 			vintage: false,
-			img_url:  "https://st4.depositphotos.com/1049680/26641/i/450/depositphotos_266418484-stock-photo-handsome-senior-man-wearing-glasses.jpg")
+			img_url:  "https://st4.depositphotos.com/1049680/26641/i/450/depositphotos_266418484-stock-photo-handsome-senior-man-wearing-glasses.jpg",
+			created_at: 1.day.ago
+		)
 
 		@poster3 = Poster.create(
 			name: "Take A Bite",
@@ -24,7 +28,9 @@ describe "posters API" do
 			price: 69.00,
 			year: 2020,
 			vintage: false,
-			img_url:  "https://psychedelichealth.co.uk/wp-content/uploads/2021/10/amanita.jpeg")
+			img_url:  "https://psychedelichealth.co.uk/wp-content/uploads/2021/10/amanita.jpeg",
+			created_at: Time.now
+		)
 	end
 
   it "render a JSON representation of the corresponding record" do
@@ -143,5 +149,31 @@ describe "posters API" do
 		expect(Poster.find_by(id: @poster1.id)).to be_nil
 		expect { Poster.find(@poster1.id) }.to raise_error(ActiveRecord::RecordNotFound)
 	end
+
+	it "can return posters sorted in ascending order by created_at" do
+
+    get "/api/v1/posters?sort=asc"
+
+    expect(response).to be_successful
+
+    posters = JSON.parse(response.body, symbolize_names: true)[:data]
+    
+    expect(posters[0][:id].to_i).to eq(@poster1.id)
+    expect(posters[1][:id].to_i).to eq(@poster2.id)
+    expect(posters[2][:id].to_i).to eq(@poster3.id)
+  end
+
+	it "can return posters sorted in descending order by created_at" do
+
+    get "/api/v1/posters?sort=desc"
+
+    expect(response).to be_successful
+
+    posters = JSON.parse(response.body, symbolize_names: true)[:data]
+    
+    expect(posters[0][:id].to_i).to eq(@poster3.id)
+    expect(posters[1][:id].to_i).to eq(@poster2.id)
+    expect(posters[2][:id].to_i).to eq(@poster1.id)
+  end
 end
 
