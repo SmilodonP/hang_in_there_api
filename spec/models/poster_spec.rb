@@ -40,7 +40,7 @@ RSpec.describe Poster, type: :model do
           year: 2020,
           vintage: false,
           img_url:  "https://psychedelichealth.co.uk/wp-content/uploads/2021/10/amanita.jpeg",
-          created_at: Time.now
+          created_at: 1.day.ago
         )
     end
     
@@ -57,7 +57,7 @@ RSpec.describe Poster, type: :model do
     end
 
     context "when filtering by minimum price" do
-      it 'returns posters that with a price greater than the minimum set in the query' do
+      it "returns posters with a price greater than the 'min_price' query param" do
         result1 = Poster.filter_by_params(min_price: 70)
         expect(result1).to include(@poster1, @poster3)
         expect(result1).not_to include(@poster2)
@@ -68,26 +68,27 @@ RSpec.describe Poster, type: :model do
       end
     end
 
-    context "when filtering by price (desc)" do
-      xit 'returns posters organized by price in a descending fashion' do
-        result = Poster.filter_by_params(
-          min_price: 20,
-          max_price: 500,
-          sort: 'desc'
-        )
-        expect(result).to eq([@poster1, @poster3, @poster2])
+    context "when filtering by maximum price" do
+      it "returns posters with a price greater than the 'max_price' query param" do
+        result1 = Poster.filter_by_params(max_price: 100)
+        expect(result1).to include(@poster2)
+        expect(result1).not_to include(@poster1, @poster3)
+
+        result2 = Poster.filter_by_params(max_price: 333)
+        expect(result2).to include(@poster2, @poster3)
+        expect(result2).not_to include(@poster1)
       end
     end
 
     context 'when sorting by created_at' do
-      xit 'returns posters in ascending order by default' do
-        result = Poster.filter_by_params
-        expect(result).to eq([@poster3, @poster1, @poster2])
+      it 'returns posters in ascending order by default' do
+        result = Poster.filter_by_params(sort: 'asc')
+        expect(result).to eq([@poster2, @poster1, @poster3])
       end
 
-      xit 'returns posters in descending order when specified' do
+      it 'returns posters in descending order when specified' do
         result = Poster.filter_by_params(sort: 'desc')
-        expect(result).to eq([@poster2, @poster, @poster3])
+        expect(result).to eq([@poster3, @poster1, @poster2])
       end
     end
   end
