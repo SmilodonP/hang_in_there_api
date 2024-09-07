@@ -1,6 +1,6 @@
 class Api::V1::PostersController < ApplicationController
 	def index
-		posters = Poster.sorted_by_created_at(params[:sort])
+		posters = Poster.filter_by_params(params[:name], params[:min_price], params[:max_price], params[:sort])
 		render json: PosterSerializer.new(posters, meta: { count: posters.count })
 	end
 
@@ -21,10 +21,10 @@ class Api::V1::PostersController < ApplicationController
 		render json: PosterSerializer.new(poster)
 	end
 
-    def destroy
-        poster = Poster.find(params[:id])
-        poster.destroy
-    end
+	def destroy
+    poster = Poster.find(params[:id])
+    poster.destroy
+  end
 
 	private
 

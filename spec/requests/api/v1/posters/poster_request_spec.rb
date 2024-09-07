@@ -175,5 +175,48 @@ describe "posters API" do
     expect(posters[1][:id].to_i).to eq(@poster2.id)
     expect(posters[2][:id].to_i).to eq(@poster1.id)
   end
+
+	it "can return posters with partial name match" do
+		get "/api/v1/posters?name=take"
+
+		expect(response).to be_successful
+
+		posters = JSON.parse(response.body, symbolize_names: true)[:data]
+
+		expect(posters.count).to eq(2)
+  	expect(posters[0][:attributes][:name]).to eq("Take A Chance")
+  	expect(posters[1][:attributes][:name]).to eq("Take A Bite")
+	end
+
+	it "can return posters with a set minimum price" do
+		get "/api/v1/posters?min_price=50"
+
+  	expect(response).to be_successful
+
+  	posters = JSON.parse(response.body, symbolize_names: true)[:data]
+
+  	expect(posters.count).to eq(3)
+  	expect(posters[0][:attributes][:price]).to be >= 50.00
+	end
+
+	it "can return posters with a set max price for $50" do
+		get "/api/v1/posters?max_price=50"
+
+  	expect(response).to be_successful
+
+  	posters = JSON.parse(response.body, symbolize_names: true)[:data]
+
+  	expect(posters.count).to eq(0)
+	end
+
+	it "can return posters with a set max price for $80" do
+		get "/api/v1/posters?max_price=80"
+
+  	expect(response).to be_successful
+
+  	posters = JSON.parse(response.body, symbolize_names: true)[:data]
+
+  	expect(posters.count).to eq(3)
+	end
 end
 
