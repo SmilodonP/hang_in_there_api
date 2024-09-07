@@ -5,7 +5,7 @@ describe "posters API" do
 		@poster1 = Poster.create(
 			name: "REGRAT",
       description: "No Ragerts",
-			price: 69.00,
+			price: 420.00,
 			year: 1999,
 			vintage: true,
 			img_url:  "https://motorillustrated.com/wp-content/uploads/2020/07/Glacer-View-Car-Launch-04.jpg",
@@ -25,7 +25,7 @@ describe "posters API" do
 		@poster3 = Poster.create(
 			name: "Take A Bite",
 			description: "One bite shouldn't kill you. Probably.",
-			price: 69.00,
+			price: 101.00,
 			year: 2020,
 			vintage: false,
 			img_url:  "https://psychedelichealth.co.uk/wp-content/uploads/2021/10/amanita.jpeg",
@@ -150,7 +150,7 @@ describe "posters API" do
 		expect { Poster.find(@poster1.id) }.to raise_error(ActiveRecord::RecordNotFound)
 	end
 
-	it "can return posters sorted in ascending order by created_at" do
+	it "can return posters sorted in ascending order by their 'created_at' attribute" do
 
     get "/api/v1/posters?sort=asc"
 
@@ -163,7 +163,7 @@ describe "posters API" do
     expect(posters[2][:id].to_i).to eq(@poster3.id)
   end
 
-	it "can return posters sorted in descending order by created_at" do
+	it "can return posters sorted in descending order by their 'created_at' attribute" do
 
     get "/api/v1/posters?sort=desc"
 
@@ -216,7 +216,7 @@ describe "posters API" do
 
   	posters = JSON.parse(response.body, symbolize_names: true)[:data]
 
-  	expect(posters.count).to eq(3)
+  	expect(posters.count).to eq(1)
 	end
 end
 

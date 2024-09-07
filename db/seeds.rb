@@ -16,21 +16,21 @@ img_url:  "https://motorillustrated.com/wp-content/uploads/2020/07/Glacer-View-C
 
 Poster.create(name: "Take A Chance",
 description: "Let 'er rip!",
-price: 69.00,
+price: 71.00,
 year: 2018,
 vintage: false,
 img_url:  "https://st4.depositphotos.com/1049680/26641/i/450/depositphotos_266418484-stock-photo-handsome-senior-man-wearing-glasses.jpg")
 
 Poster.create(name: "Take A Bite",
 description: "One bite shouldn't kill you. Probably.",
-price: 69.00,
+price: 101.00,
 year: 2020,
 vintage: false,
 img_url:  "https://psychedelichealth.co.uk/wp-content/uploads/2021/10/amanita.jpeg")
 
 Poster.create(name: "Patience",
 description: "Too much of a good thing is never a good thing.",
-price: 69.00,
+price: 77.00,
 year: 2021,
 vintage: false,
 img_url:  "https://motionarray.imgix.net/igor-fon-20-mov-2680769-high_0006.jpg?w=660&q=60&fit=max&auto=format")
