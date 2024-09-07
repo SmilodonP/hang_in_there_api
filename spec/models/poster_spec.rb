@@ -5,13 +5,13 @@ RSpec.describe Poster, type: :model do
     it { should validate_presence_of(:name) }
     it { should validate_presence_of(:description) }
     it { should validate_presence_of(:price) }
-    it { should validate_numericality_of(:price).is_greater_than_or_equal_to(0) }
+    it { should validate_numericality_of(:price).is_greater_than_or_equal_to(1) }
     it { should validate_presence_of(:year) }
     it { should validate_numericality_of(:year).only_integer }
     it { should validate_presence_of(:img_url) }
   end
 
-  describe ".filter_by_params" do
+  describe "The 'filter_by_params' Class Method:" do
     before(:each) do
       @poster1 = Poster.create!(
           name: "REGRAT",
@@ -69,7 +69,7 @@ RSpec.describe Poster, type: :model do
     end
 
     context "when filtering by maximum price" do
-      it "returns posters with a price greater than the 'max_price' query param" do
+      it "returns posters with a price less than the 'max_price' query param" do
         result1 = Poster.filter_by_params(max_price: 100)
         expect(result1).to include(@poster2)
         expect(result1).not_to include(@poster1, @poster3)
