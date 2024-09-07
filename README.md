@@ -14,7 +14,7 @@ This was our second project in the second module of The Turing School of Softwar
 [//]: <> (Who worked on this application? Link to your GitHub. Consider also providing LinkedIn link)
 Karl Fallenius | [Github](https://github.com/SmilodonP) | [LinkedIn](https://www.linkedin.com/in/karlfallenius/)
 Kaelin P Salazar | ([enter GitHub link here])) | (enter LinkedIn link here)
-Bryan Willett | [Github](https://github.com/bwillett2003) | [LinkedIn] (https://www.linkedin.com/in/bryan--willett)
+Bryan Willett | [Github](https://github.com/bwillett2003) | [LinkedIn](https://www.linkedin.com/in/bryan--willett)
 ### Learning Goals:
 [//]: <> (What were the learning goals of this project? What tech did you work with?)
 This was a green field project that tested and grew our ability to create a Rails API from skratch, not only establishing but expanding its functionality as well. We worked with Ruby on Rails and Postman.
