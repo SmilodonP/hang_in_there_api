@@ -1,5 +1,5 @@
 class Poster < ApplicationRecord
-  def self.filter_by_params(name, min_price, max_price, order)
+  def self.filter_by_params(name, min_price, max_price, sort)
     posters = all
 
     posters = posters.where('name ILIKE ?', "%#{name}%") if name.present?
@@ -8,7 +8,7 @@ class Poster < ApplicationRecord
 
     posters = posters.where('price <= ?', max_price) if max_price.present?
 
-    posters = posters.order(created_at: (order == "desc" ? :desc : :asc))
+    posters = posters.order(created_at: (sort == "desc" ? :desc : :asc))
 
     posters
   end
