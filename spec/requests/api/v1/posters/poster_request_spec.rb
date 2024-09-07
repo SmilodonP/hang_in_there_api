@@ -121,21 +121,20 @@ describe "posters API" do
 	end
 
   it "can update an existing poster" do
+		poster = Poster.create(name: "OG Poster", description: "A mad decent poster", price: 100, year: 1996, vintage: true, img_url: "https://itsaposter.com/poster_face.jpg")
+    id = poster.id
 
-    id = Poster.create(name: "New Updated Poster").id
+    previous_name = poster.name
 
-    previous_name = Poster.name
-
-    poster_params = { name: "New Updated Poster"}
+    poster_params = { name: "Fashionably Updated Poster"}
     headers = {"CONTENT_TYPE" => "application/json"}
   
     patch "/api/v1/posters/#{id}", headers: headers, params: JSON.generate({poster: poster_params})
-
-    poster = Poster.find_by(id: id)
+		poster.reload
   
     expect(response).to be_successful
     expect(poster.name).to_not eq(previous_name)
-    expect(poster.name).to eq("New Updated Poster")
+    expect(poster.name).to eq("Fashionably Updated Poster")
   end
 
 	it "can delete posters" do
